@@ -6,18 +6,21 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import java.time.Duration;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class LogService {
 
     public static void main(String[] args) {
-
         LogService logService = new LogService();
-        try (KafkaService service = new KafkaService(EmailService.class.getSimpleName(),
-                Pattern.compile ("ECOMMERCE.*"),
-                logService::parse)) {
+        Map<String,String> mapper = new HashMap<String, String> ();
+        mapper.put (ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        try (KafkaService service = new KafkaService(LogService.class.getSimpleName(),
+                Pattern.compile("ECOMMERCE.*"),
+                logService::parse,
+                String.class,
+                mapper)) {
             service.run();
         }
     }
