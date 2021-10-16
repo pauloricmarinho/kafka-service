@@ -1,5 +1,4 @@
 package  br.com.prmarinho.kafka.producer;
-import br.com.prmarinho.kafka.Order;
 
 import java.math.BigDecimal;
 import java.util.UUID;
